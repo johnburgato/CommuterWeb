@@ -1,0 +1,8 @@
+﻿.bingMap {
+	position: absolute;
+	top: 20;
+	left: 10;
+	width: 700px;
+	height: 700px;
+	border:#555555 2px solid;
+}

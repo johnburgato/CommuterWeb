@@ -1,0 +1,9 @@
+C:\Development\projects\CommuterWeb\CommuterWeb\bin\CommuterWeb.dll
+C:\Development\projects\CommuterWeb\CommuterWeb\bin\CommuterWeb.pdb
+C:\Development\projects\CommuterWeb\CommuterWeb\obj\Debug\ResolveAssemblyReference.cache
+C:\Development\projects\CommuterWeb\CommuterWeb\obj\Debug\CommuterWeb.dll
+C:\Development\projects\CommuterWeb\CommuterWeb\obj\Debug\CommuterWeb.pdb
+C:\Development\projects\CommuterWeb\CommuterWeb\bin\TransportModel.Shared.dll
+C:\Development\projects\CommuterWeb\CommuterWeb\bin\ProjNet.dll
+C:\Development\projects\CommuterWeb\CommuterWeb\bin\ProjNet.xml
+C:\Development\projects\CommuterWeb\CommuterWeb\bin\TransportModel.Shared.pdb
