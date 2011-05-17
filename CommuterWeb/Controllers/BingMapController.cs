@@ -22,6 +22,7 @@ namespace CommuterWeb.Controllers
 
         public struct LinkViewModel
         {
+            public long? Attributes { get; set; }
             public List<Coordinate> Polyline { get; set; }
         }
 
@@ -44,6 +45,7 @@ namespace CommuterWeb.Controllers
             {
                 LinkViewModel lvm = new LinkViewModel();
                 //lvm.Polyline = l.PolylineLatLon;
+                lvm.Attributes = l.Attributes;
                 lvm.Polyline = l.PolylineNorEst;
                 vm.Links.Add(lvm);
             }

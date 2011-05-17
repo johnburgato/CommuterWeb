@@ -13,6 +13,9 @@
     <input type="button" value="Pin" onclick="Test1()" />
     <input type="button" value="Poly" onclick="Test2()" />
     <%= Ajax.ActionLink("Get links", "GetLinks", new { max = 1000 }, new AjaxOptions { OnSuccess = "GetLinksSuccess", OnFailure = "Fail", HttpMethod="POST" })%>
+    <div id="debugOutputDiv">
+    </div>
     <div id="mapDiv" class="bingMap"></div>
+    
 
 </asp:Content>

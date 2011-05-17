@@ -27,6 +27,7 @@ function GetLinksBegin() {
     alert("go");
 }
 
+var polygoncolor = new Microsoft.Maps.Color(100, 100, 0, 100);
 function GetLinksSuccess(args) {
     var d = args.get_data();
     var jsnObj = eval('(' + d + ')');
@@ -44,15 +45,30 @@ function GetLinksSuccess(args) {
             vertices.push(new Microsoft.Maps.Location(coord.Y, coord.X));
         }
 
-        var polygoncolor = new Microsoft.Maps.Color(100, 100, 0, 100);
         var polyline = new Microsoft.Maps.Polyline(vertices, { strokeColor: polygoncolor, strokeThickness: 5 });
+
+        polyline.data = l.Attributes;
+        
         // Add the polyline to the map
         map.entities.push(polyline);
-        
-        //alert(polyline.getLocations()[0].toString());
+
+        Microsoft.Maps.Events.addHandler(polyline, 'mouseover', displayInfo);
+        Microsoft.Maps.Events.addHandler(polyline, 'mouseout', undisplayInfo);
     }
 }
 
+var selColor = new Microsoft.Maps.Color(255, 255, 0, 0);
+function displayInfo(ev) {
+    
+    var polyline = ev.target;
+    polyline.setOptions({ strokeColor: selColor, strokeThickness: 8 });
+
+    $('#debugOutputDiv').text(polyline.data);
+}
+
+function undisplayInfo(ev) {
+    ev.target.setOptions({ strokeColor: polygoncolor, strokeThickness: 5 });
+}
 
 function OsgbToWgs(eastings, northings) {
     var osgb = new GT_OSGB();
