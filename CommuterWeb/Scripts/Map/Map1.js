@@ -2,20 +2,27 @@
 var bingMapKey = "AnMCgt4EpRMhL1ZXDdQUruATqSpuUB3W76XzQwtuu3Z_0bE6X1QA2edGu0Owv1lP";
 var osgb = null;
 
+var attributeMeta;
+
+var linkTypeAttribs;
+var natureOfRoadAttribs;
+
 $(document).ready(function() {
 
     var jqMapDiv = $("#mapDiv");
     if (jqMapDiv.size() > 0) {
-        map = new Microsoft.Maps.Map(jqMapDiv.get(0), 
+        map = new Microsoft.Maps.Map(jqMapDiv.get(0),
         { credentials: bingMapKey,
-          mapTypeId: Microsoft.Maps.MapTypeId.road,
-          showMapTypeSelector: false,
-          zoom: 14,
-          center: new Microsoft.Maps.Location(51.236543, -0.758163)
+            mapTypeId: Microsoft.Maps.MapTypeId.road,
+            showMapTypeSelector: false,
+            zoom: 14,
+            center: new Microsoft.Maps.Location(51.236543, -0.758163)
         });
     }
 
     osgb = new GT_OSGB();
+
+    $('#lnkGetAttributes').click();
 });
 
 function Fail(args) {
@@ -25,6 +32,25 @@ function Fail(args) {
 
 function GetLinksBegin() {
     alert("go");
+}
+
+function GetAttribsSuccess(args) {
+    var d = args.get_data();
+    var jsnObj = eval('(' + d + ')');
+    attributeMeta = jsnObj;
+
+    linkTypeAttribs = [];
+    natureOfRoadAttribs = [];
+
+    for (var i = 0; i < attributeMeta.length; ++i) {
+        var attribute = attributeMeta[i];
+
+        if (attribute.Name == 'RoadLinkType') {
+            linkTypeAttribs.push(attribute);
+        } else if (attribute.Name == 'NatureOfRoad') {
+            natureOfRoadAttribs.push(attribute);
+        }
+    }
 }
 
 var polygoncolor = new Microsoft.Maps.Color(100, 100, 0, 100);
@@ -48,6 +74,7 @@ function GetLinksSuccess(args) {
         var polyline = new Microsoft.Maps.Polyline(vertices, { strokeColor: polygoncolor, strokeThickness: 5 });
 
         polyline.data = l.Attributes;
+        polyline.Length = l.Length;
         
         // Add the polyline to the map
         map.entities.push(polyline);
@@ -63,10 +90,32 @@ function displayInfo(ev) {
     var polyline = ev.target;
     polyline.setOptions({ strokeColor: selColor, strokeThickness: 8 });
 
-    $('#debugOutputDiv').text(polyline.data);
+    var ul = $("<ul></ul>");
+
+    ul.append($("<li>" + polyline.Length + "</li>"));
+
+    for (var i = 0; i < linkTypeAttribs.length; ++i) {
+        var linkTypeAttrib = linkTypeAttribs[i];
+        if ((polyline.data & linkTypeAttrib.AToBMask) != 0) {
+            var li = $("<li>" + linkTypeAttrib.Value + "</li>");
+            ul.append(li);
+        }
+    }
+
+    for (var i = 0; i < natureOfRoadAttribs.length; ++i) {
+        var natureOfRoadAttrib = natureOfRoadAttribs[i];
+        if ((polyline.data & natureOfRoadAttrib.AToBMask) != 0) {
+            var li = $("<li>" + natureOfRoadAttrib.Value + "</li>");
+            ul.append(li);
+        }
+    }
+
+    //$('#debugOutputDiv').text(polyline.data);
+    $('#debugOutputDiv').append(ul);
 }
 
 function undisplayInfo(ev) {
+    $('#debugOutputDiv').html('');
     ev.target.setOptions({ strokeColor: polygoncolor, strokeThickness: 5 });
 }
 

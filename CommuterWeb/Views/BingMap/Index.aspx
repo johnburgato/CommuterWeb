@@ -12,8 +12,11 @@
     <h2>Index</h2>
     <input type="button" value="Pin" onclick="Test1()" />
     <input type="button" value="Poly" onclick="Test2()" />
+    <%= Ajax.ActionLink("Get attributes", "GetAttributes", "BingMap", null, 
+        new AjaxOptions { OnSuccess = "GetAttribsSuccess", OnFailure = "Fail", HttpMethod = "POST" }, 
+        new { id = "lnkGetAttributes" })%>
     <%= Ajax.ActionLink("Get links", "GetLinks", new { max = 1000 }, new AjaxOptions { OnSuccess = "GetLinksSuccess", OnFailure = "Fail", HttpMethod="POST" })%>
-    <div id="debugOutputDiv">
+    <div id="debugOutputDiv" style="float:right; background-color: White; min-height:200px; min-width:200px">
     </div>
     <div id="mapDiv" class="bingMap"></div>
     

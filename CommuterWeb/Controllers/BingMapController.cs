@@ -22,6 +22,7 @@ namespace CommuterWeb.Controllers
 
         public struct LinkViewModel
         {
+            public double? Length { get; set; }
             public long? Attributes { get; set; }
             public List<Coordinate> Polyline { get; set; }
         }
@@ -29,6 +30,12 @@ namespace CommuterWeb.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult GetAttributes()
+        {
+            List<TransportModel.Model.Attribute> attribs = RoadNetwork.Instance.NetworkModel.Attributes;
+            return Json(attribs);
         }
 
         public ActionResult GetLinks(int? max)
@@ -45,6 +52,7 @@ namespace CommuterWeb.Controllers
             {
                 LinkViewModel lvm = new LinkViewModel();
                 //lvm.Polyline = l.PolylineLatLon;
+                lvm.Length = l.Length;
                 lvm.Attributes = l.Attributes;
                 lvm.Polyline = l.PolylineNorEst;
                 vm.Links.Add(lvm);
